@@ -37,8 +37,8 @@ input {
 }
 
 i {
-    justify-content: align-right;
     margin: 5px;
+    float: right;
 }
 
 li:hover .delete-button {

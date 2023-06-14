@@ -39,7 +39,7 @@ const TodoList = () => {
                     <div key= {item.id}>
                         <ul>
                             <li >
-                            {item.string}<i 
+                            <span>{item.string}</span><i 
                             className="fas fa-trash-alt"
                             onClick={() => handleDeleteTodo([])}
                             >

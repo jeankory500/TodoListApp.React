@@ -4,6 +4,11 @@ const TodoList = () => {
     const [ inputValue, setInputValue] = useState("");
     const [todos, setTodos] = useState([]);
     const [id, setid] = useState(1)
+    const handleDeleteTodo = (index) => {
+    const newTodos = [...todos];
+    newTodos.splice(index, 1);
+    setTodos(newTodos);
+  };
     
     return (
         <div className="container">
@@ -35,15 +40,10 @@ const TodoList = () => {
                         <ul>
                             <li >
                             {item.string}<i 
-                            class="fas fa-trash-alt"
-                            onClick={() =>
-                                setTodos(
-                                    todos.filter(
-                                        (todos) => 
-                                        index != todos
-                                ))
-                            }
-                            ></i>
+                            className="fas fa-trash-alt"
+                            onClick={() => handleDeleteTodo([])}
+                            >
+                            </i>
                             </li>   
                         </ul>
                     </div>

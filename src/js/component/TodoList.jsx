@@ -1,62 +1,59 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 const TodoList = () => {
-    const [ inputValue, setInputValue] = useState("");
-    const [todos, setTodos] = useState([]);
-    const [id, setid] = useState(1)
-    const handleDeleteTodo = (index) => {
-    const newTodos = [...todos];
-    newTodos.splice(index, 1);
+  const [inputValue, setInputValue] = useState('');
+  const [todos, setTodos] = useState([]);
+  const [id, setid] = useState(1);
+  const [hoveredIndex, setHoveredIndex] = useState(-1); // -1 means no task is currently hovered
+
+  const handleDeleteTodo = (index) => {
+    const newTodos = todos.filter((_, i) => i !== index);
     setTodos(newTodos);
   };
-    
-    return (
-        <div className="container">
-            <h1>My Todos</h1>
+
+  return (
+    <div className="container">
+      <h1>My Todos</h1>
+      <ul>
+        <li>
+          <input
+            type="text"
+            onChange={(e) => setInputValue(e.target.value)}
+            value={inputValue}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                const item = {
+                  string: inputValue,
+                  id: id,
+                };
+                setTodos([...todos, item]);
+                setInputValue('');
+                setid((id) => id + 1);
+              }
+            }}
+            placeholder="What do you need done?"
+          />
+        </li>
+
+        {todos.map((item, index) => (
+          <div key={item.id}>
             <ul>
-                <li>
-                    <input      
-                        type="text"
-                        onChange= {(e) => setInputValue(e.target.value)}
-                        value={inputValue}
-                        onKeyDown= {(e) => {
-                        console.log("key was pressed", e.key)
-                            if (e.key === "Enter") { 
-                                const item = {
-                                    string: inputValue, 
-                                    id: id
-                                }
-                                setTodos([...todos, item]);
-                                setInputValue("");
-                                setid(id => id+1);
-                                }
-                            }}
-                        placeholder= "What do you need done?">
-                    </input>
-                </li>
-
-                {todos.map((item) => (
-                    <div key= {item.id}>
-                        <ul>
-                            <li >
-                            <span>{item.string}</span><i 
-                            className="fas fa-trash-alt"
-                            onClick={() => handleDeleteTodo([])}
-                            >
-                            </i>
-                            </li>   
-                        </ul>
-                    </div>
-                    
-                ))}
-        
+              <li
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(-1)}
+              >
+                <span>{item.string}</span>
+                {hoveredIndex === index && (
+                  <i className="fas fa-trash-alt" onClick={() => handleDeleteTodo(index)} />
+                )}
+              </li>
             </ul>
-            <div> {todos.length} task </div>
-        </div>
-  )
-}
-//add into array --> concat
-//Delete from array --> filter 
-// update --> map
+          </div>
+        ))}
+      </ul>
+      <div> {todos.length} task </div>
+    </div>
+  );
+};
 
-export default TodoList
+export default TodoList;
